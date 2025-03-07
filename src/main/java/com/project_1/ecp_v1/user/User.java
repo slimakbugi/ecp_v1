@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.apache.catalina.core.JreMemoryLeakPreventionListener;
 
 import java.time.LocalDate;
 
@@ -18,8 +19,11 @@ public class User {
     private LocalDate dateOfBirth;
     private UserPositions position;
     private Boolean isHired;
+    private LocalDate employmentDate;
+    private LocalDate releaseDate;
 
     public User() {
+        this.releaseDate = LocalDate.of(2099,12,31);
     }
 
 //    public User(String firstname, String lastname, String eMail, LocalDate dateOfBirth, UserPositions position) {
@@ -84,5 +88,23 @@ public class User {
 
     public void setIsHired(Boolean isHired) {
         this.isHired = isHired;
+    }
+
+    public LocalDate getEmploymentDate() {
+        return employmentDate;
+    }
+
+    public void setEmploymentDate(LocalDate employmentDate) {
+        this.employmentDate = employmentDate;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        if (releaseDate != null) {
+            this.releaseDate = releaseDate;
+        }
     }
 }

@@ -9,6 +9,7 @@ public record UserCreationDTO(
         String email,
         LocalDate dateOfBirth,
         UserPositions position,
-        Boolean isHired
+        Boolean isHired,
+        LocalDate employmentDate
 ) {
 }
