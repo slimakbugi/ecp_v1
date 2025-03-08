@@ -24,6 +24,7 @@ public class User {
 
     public User() {
         this.releaseDate = LocalDate.of(2099,12,31);
+        this.isHired = true;
     }
 
 //    public User(String firstname, String lastname, String eMail, LocalDate dateOfBirth, UserPositions position) {
