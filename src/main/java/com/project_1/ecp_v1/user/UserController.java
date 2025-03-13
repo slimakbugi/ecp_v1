@@ -24,7 +24,11 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getAllUsers(){
         List<UserDTO> allUsers = userService.getAllUsers();
 
-        return ResponseEntity.ok(allUsers);
+        if(allUsers.isEmpty()){
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(allUsers);
+        }
     }
 
     @GetMapping("/{id}")
