@@ -13,16 +13,15 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping()
     public ResponseEntity<List<UserDTO>> getAllUsers(){
-        List<UserDTO> allUsers = userService.getAllUsers();
+        List<UserDTO> allUsers = userServiceImpl.getAllUsers();
 
         if(allUsers.isEmpty()){
             return ResponseEntity.noContent().build();
@@ -33,7 +32,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Integer id){
-        Optional<UserDTO> user = userService.getUserDtoById(id);
+        Optional<UserDTO> user = userServiceImpl.getUserDtoById(id);
 
         return user
                 .map(u -> ResponseEntity.ok().body(u))
@@ -42,7 +41,7 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<UserDTO> addUser(@RequestBody UserCreationDTO user){
-        UserDTO addedUser = userService.addUser(user);
+        UserDTO addedUser = userServiceImpl.addUser(user);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -54,7 +53,7 @@ public class UserController {
 
     @DeleteMapping()
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id){
-        boolean isUserDeleted = userService.deleteUser(id);
+        boolean isUserDeleted = userServiceImpl.deleteUser(id);
 
         if(isUserDeleted){
             return ResponseEntity.accepted().build();
