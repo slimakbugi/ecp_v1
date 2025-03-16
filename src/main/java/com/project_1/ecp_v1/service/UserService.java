@@ -1,4 +1,7 @@
-package com.project_1.ecp_v1.user;
+package com.project_1.ecp_v1.service;
+
+import com.project_1.ecp_v1.dto.UserCreationDTO;
+import com.project_1.ecp_v1.dto.UserDTO;
 
 import java.time.LocalDate;
 import java.util.List;

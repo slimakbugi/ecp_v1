@@ -1,10 +1,10 @@
-package com.project_1.ecp_v1.user;
+package com.project_1.ecp_v1.model;
 
+import com.project_1.ecp_v1.enums.UserPositions;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import org.apache.catalina.core.JreMemoryLeakPreventionListener;
 
 import java.time.LocalDate;
 

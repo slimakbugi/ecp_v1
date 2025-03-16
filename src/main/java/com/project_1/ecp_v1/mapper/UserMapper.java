@@ -1,5 +1,8 @@
-package com.project_1.ecp_v1.user;
+package com.project_1.ecp_v1.mapper;
 
+import com.project_1.ecp_v1.dto.UserCreationDTO;
+import com.project_1.ecp_v1.dto.UserDTO;
+import com.project_1.ecp_v1.model.User;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,11 +1,15 @@
-package com.project_1.ecp_v1.user;
+package com.project_1.ecp_v1.service;
 
+import com.project_1.ecp_v1.dto.UserCreationDTO;
+import com.project_1.ecp_v1.dto.UserDTO;
+import com.project_1.ecp_v1.mapper.UserMapper;
+import com.project_1.ecp_v1.model.User;
+import com.project_1.ecp_v1.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -26,7 +30,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<UserDTO> getAllUsers(){
-        return StreamSupport.stream(userRepository.findAll().spliterator(), false)
+        return userRepository.findAll().stream()
                 .map(userMapper::userToDtoMapper)
                 .toList();
     }

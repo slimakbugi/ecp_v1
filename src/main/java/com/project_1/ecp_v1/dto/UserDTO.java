@@ -1,6 +1,4 @@
-package com.project_1.ecp_v1.user;
-
-import java.time.LocalDate;
+package com.project_1.ecp_v1.dto;
 
 public record UserDTO(
         Integer id,
