@@ -1,12 +1,10 @@
 package com.project_1.ecp_v1.model;
 
 import com.project_1.ecp_v1.enums.UserPositions;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class User {
@@ -22,19 +20,19 @@ public class User {
     private LocalDate employmentDate;
     private LocalDate releaseDate;
 
+//    Table dependencies
+    @OneToMany(mappedBy = "user")
+    List<Record> records;
+
+//    Constructors
     public User() {
         this.releaseDate = LocalDate.of(2099,12,31);
         this.isHired = true;
     }
 
-//    public User(String firstname, String lastname, String eMail, LocalDate dateOfBirth, UserPositions position) {
-//        this.firstname = firstname;
-//        this.lastname = lastname;
-//        this.email = eMail;
-//        this.dateOfBirth = dateOfBirth;
-//        this.position = position;
-//    }
 
+
+//    Getters and Setters
     public Integer getId() {
         return id;
     }
