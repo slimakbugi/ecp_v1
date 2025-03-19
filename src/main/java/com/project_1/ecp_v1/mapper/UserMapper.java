@@ -9,7 +9,11 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
     public UserMapper() {}
 
-    public User dtoToUserMapper(UserCreationDTO userCreationDTO){
+    public User dtoToUser(UserCreationDTO userCreationDTO){
+        if (userCreationDTO == null){
+            return null;
+        }
+
         User user = new User();
         user.setFirstname(userCreationDTO.firstname());
         user.setLastname(userCreationDTO.lastname());
@@ -20,7 +24,15 @@ public class UserMapper {
         return user;
     }
 
-    public UserDTO userToDtoMapper(User user){
-        return new UserDTO(user.getId(), user.getFirstname(), user.getLastname(), user.getEmail());
+    public UserDTO userToDto(User user){
+        if (user == null){
+            return null;
+        }
+        return new UserDTO(
+                user.getId(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getEmail()
+        );
     }
 }

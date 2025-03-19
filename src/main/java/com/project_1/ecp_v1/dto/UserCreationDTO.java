@@ -11,5 +11,4 @@ public record UserCreationDTO(
         LocalDate dateOfBirth,
         UserPositions position,
         LocalDate employmentDate
-) {
-}
+) {}

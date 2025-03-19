@@ -18,7 +18,7 @@ public class Record {
     private String body;
     private RecordPlace place;
     private RecordType recordType;
-    private Duration workTime;
+    private Long workTime;
 
 //    Table dependencies
     @ManyToOne
@@ -28,12 +28,23 @@ public class Record {
 //    Constructors
     public Record() {
         recordType = RecordType.work;
-        workTime = Duration.between(start, end);
+        workTime = Duration.between(start, end).toMinutes();
     }
 
+    public Record(Integer id, LocalDateTime start, LocalDateTime end,
+                  String project, String body, RecordPlace place,
+                  RecordType recordType, User user) {
+        this.start = start;
+        this.end = end;
+        this.project = project;
+        this.body = body;
+        this.place = place;
+        this.recordType = recordType;
+        this.user = user;
+        this.workTime = Duration.between(start, end).toMinutes();
+    }
 
-
-//    Getters and Setters
+    //    Getters and Setters
     public Integer getId() {
         return id;
     }
@@ -96,5 +107,13 @@ public class Record {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setWorkTime(Long workTime) {
+        this.workTime = workTime;
+    }
+
+    public Long getWorkTime() {
+        return workTime;
     }
 }

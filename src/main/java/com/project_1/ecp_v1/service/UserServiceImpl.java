@@ -25,13 +25,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public Optional<UserDTO> getUserDtoById(Integer id){
         return userRepository.findById(id)
-                .map(userMapper::userToDtoMapper);
+                .map(userMapper::userToDto);
     }
 
     @Override
     public List<UserDTO> getAllUsers(){
         return userRepository.findAll().stream()
-                .map(userMapper::userToDtoMapper)
+                .map(userMapper::userToDto)
                 .toList();
     }
 
@@ -47,10 +47,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO addUser(UserCreationDTO userCreationDTO){
-        User user = userMapper.dtoToUserMapper(userCreationDTO);
+        User user = userMapper.dtoToUser(userCreationDTO);
 
         userRepository.save(user);
-        return userMapper.userToDtoMapper(user);
+        return userMapper.userToDto(user);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService{
 
                     return userRepository.save(existingUser);
                 })
-                .map(userMapper::userToDtoMapper);
+                .map(userMapper::userToDto);
     }
 
     @Override
