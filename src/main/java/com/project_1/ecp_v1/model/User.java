@@ -30,8 +30,6 @@ public class User {
         this.isHired = true;
     }
 
-
-
 //    Getters and Setters
     public Integer getId() {
         return id;

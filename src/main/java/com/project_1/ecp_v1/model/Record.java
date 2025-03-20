@@ -28,7 +28,6 @@ public class Record {
 //    Constructors
     public Record() {
         recordType = RecordType.work;
-        workTime = Duration.between(start, end).toMinutes();
     }
 
     public Record(Integer id, LocalDateTime start, LocalDateTime end,
@@ -41,10 +40,15 @@ public class Record {
         this.place = place;
         this.recordType = recordType;
         this.user = user;
+        workTimeDuration(start, end);
+    }
+
+//    Methods
+    private void workTimeDuration(LocalDateTime start, LocalDateTime end) {
         this.workTime = Duration.between(start, end).toMinutes();
     }
 
-    //    Getters and Setters
+//    Getters and Setters
     public Integer getId() {
         return id;
     }
@@ -109,8 +113,8 @@ public class Record {
         this.user = user;
     }
 
-    public void setWorkTime(Long workTime) {
-        this.workTime = workTime;
+    public void setWorkTime() {
+        workTimeDuration(this.start, this.end);
     }
 
     public Long getWorkTime() {

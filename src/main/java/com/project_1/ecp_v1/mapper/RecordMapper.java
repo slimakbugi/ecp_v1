@@ -15,7 +15,7 @@ public class RecordMapper {
         this.userRepository = userRepository;
     }
 
-    public Record dtoToRecord(RecordDTO recordDTO){
+    public Record toEntity(RecordDTO recordDTO){
         if(recordDTO == null){
             return null;
         }
@@ -32,7 +32,7 @@ public class RecordMapper {
                 );
     }
 
-    public RecordDTO recordToDto(Record record){
+    public RecordDTO toDto(Record record){
         if (record == null){
             return null;
         }
@@ -45,7 +45,7 @@ public class RecordMapper {
                 record.getPlace(),
                 record.getRecordType(),
                 record.getWorkTime(),
-                userMapper.userToDto(record.getUser())
+                userMapper.toDto(record.getUser())
         );
     }
 }
