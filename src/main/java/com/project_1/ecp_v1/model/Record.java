@@ -19,6 +19,7 @@ public class Record {
     private RecordPlace place;
     private RecordType recordType;
     private Long workTime;
+    private boolean isEditable;
 
 //    Table dependencies
     @ManyToOne
@@ -28,6 +29,7 @@ public class Record {
 //    Constructors
     public Record() {
         recordType = RecordType.work;
+        isEditable = true;
     }
 
     public Record(Integer id, LocalDateTime start, LocalDateTime end,
@@ -41,6 +43,7 @@ public class Record {
         this.recordType = recordType;
         this.user = user;
         workTimeDuration(start, end);
+        this.isEditable = true;
     }
 
 //    Methods
@@ -119,5 +122,13 @@ public class Record {
 
     public Long getWorkTime() {
         return workTime;
+    }
+
+    public boolean isEditable() {
+        return isEditable;
+    }
+
+    public void setEditable(boolean editable) {
+        isEditable = editable;
     }
 }

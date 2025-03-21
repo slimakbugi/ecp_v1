@@ -45,7 +45,8 @@ public class RecordMapper {
                 record.getPlace(),
                 record.getRecordType(),
                 record.getWorkTime(),
-                userMapper.toDto(record.getUser())
+                userMapper.toDto(record.getUser()),
+                record.isEditable()
         );
     }
 }

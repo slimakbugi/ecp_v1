@@ -14,5 +14,6 @@ public record RecordDTO(
         RecordPlace place,
         RecordType recordType,
         Long workTime,
-        UserDTO userDTO
+        UserDTO userDTO,
+        boolean isEditable
 ) {}
