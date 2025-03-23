@@ -53,6 +53,15 @@ public class UserController {
         return ResponseEntity.created(uri).body(addedUser);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Integer id, @RequestBody UserCreationDTO user){
+        Optional<UserDTO> updatedUser = userServiceImpl.partiallyUpdateUser(id, user);
+
+        return updatedUser
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping()
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id){
         boolean isUserDeleted = userServiceImpl.deleteUser(id);

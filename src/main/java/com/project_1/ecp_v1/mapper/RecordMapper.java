@@ -2,6 +2,7 @@ package com.project_1.ecp_v1.mapper;
 
 import com.project_1.ecp_v1.dto.RecordDTO;
 import com.project_1.ecp_v1.model.Record;
+import com.project_1.ecp_v1.repository.RecordRepository;
 import com.project_1.ecp_v1.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
@@ -9,11 +10,16 @@ import org.springframework.stereotype.Component;
 public class RecordMapper {
     UserMapper userMapper;
     UserRepository userRepository;
+    RecordRepository recordRepository;
 
-    public RecordMapper(UserMapper userMapper, UserRepository userRepository) {
+//    Constructor
+    public RecordMapper(UserMapper userMapper, UserRepository userRepository, RecordRepository recordRepository) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
+        this.recordRepository = recordRepository;
     }
+
+//    From DTO to entity mapper
 
     public Record toEntity(RecordDTO recordDTO){
         if(recordDTO == null){
@@ -32,6 +38,12 @@ public class RecordMapper {
                 );
     }
 
+//    public Record existingToEntity(RecordDTO recordDTO){
+//         Optional<Record> record = recordRepository.findById(recordDTO.id());
+//        );
+//    }
+
+//    From entity to DTO mapper
     public RecordDTO toDto(Record record){
         if (record == null){
             return null;
@@ -46,7 +58,7 @@ public class RecordMapper {
                 record.getRecordType(),
                 record.getWorkTime(),
                 userMapper.toDto(record.getUser()),
-                record.isEditable()
+                record.getIsEditable()
         );
     }
 }

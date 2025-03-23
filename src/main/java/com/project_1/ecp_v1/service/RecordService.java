@@ -11,5 +11,5 @@ public interface RecordService {
     boolean deleteRecord(Integer id);
     RecordDTO addRecord(RecordDTO record);
     Optional<RecordDTO> partiallyUpdateRecord(Integer id, RecordDTO record);
-
+    void setRecordsEditable(Integer userId, Integer month, boolean isEditable);
 }

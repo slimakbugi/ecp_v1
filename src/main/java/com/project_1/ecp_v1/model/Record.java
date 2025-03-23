@@ -124,11 +124,11 @@ public class Record {
         return workTime;
     }
 
-    public boolean isEditable() {
+    public boolean getIsEditable() {
         return isEditable;
     }
 
-    public void setEditable(boolean editable) {
+    public void setIsEditable(boolean editable) {
         isEditable = editable;
     }
 }

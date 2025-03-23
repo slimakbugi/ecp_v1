@@ -72,5 +72,14 @@ public class RecordServiceImpl implements RecordService{
                 .map(recordMapper::toDto);
     }
 
-//    public boolean setRecordsNotEditable(Integer userId, Integer month){}
+    @Override
+    public void setRecordsEditable(Integer userId, Integer month, boolean isEditable){
+        recordRepository.findAll().stream()
+                .filter(r -> r.getUser().getId().equals(userId))
+                .filter(r -> r.getStart().getMonthValue() == month)
+                .forEach(r -> {
+                    r.setIsEditable(isEditable);
+                    recordRepository.save(r);
+                });
+    }
 }
