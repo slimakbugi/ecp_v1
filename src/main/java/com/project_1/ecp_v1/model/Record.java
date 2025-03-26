@@ -1,5 +1,6 @@
 package com.project_1.ecp_v1.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project_1.ecp_v1.enums.RecordPlace;
 import com.project_1.ecp_v1.enums.RecordType;
 import jakarta.persistence.*;
@@ -12,12 +13,14 @@ public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime start;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime end;
     private String project;
     private String body;
-    private RecordPlace place;
-    private RecordType recordType;
+    private String place;
+    private String recordType;
     private Long workTime;
     private boolean isEditable;
 
@@ -28,13 +31,13 @@ public class Record {
 
 //    Constructors
     public Record() {
-        recordType = RecordType.work;
+        recordType = "work";
         isEditable = true;
     }
 
     public Record(Integer id, LocalDateTime start, LocalDateTime end,
-                  String project, String body, RecordPlace place,
-                  RecordType recordType, User user) {
+                  String project, String body, String place,
+                  String recordType, User user) {
         this.start = start;
         this.end = end;
         this.project = project;
@@ -92,19 +95,19 @@ public class Record {
         this.body = body;
     }
 
-    public RecordPlace getPlace() {
+    public String getPlace() {
         return place;
     }
 
-    public void setPlace(RecordPlace place) {
+    public void setPlace(String place) {
         this.place = place;
     }
 
-    public RecordType getRecordType() {
+    public String getRecordType() {
         return recordType;
     }
 
-    public void setRecordType(RecordType recordType) {
+    public void setRecordType(String recordType) {
         this.recordType = recordType;
     }
 

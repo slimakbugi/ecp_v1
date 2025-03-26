@@ -11,8 +11,8 @@ public record RecordDTO(
         LocalDateTime end,
         String project,
         String body,
-        RecordPlace place,
-        RecordType recordType,
+        String place,
+        String recordType,
         Long workTime,
         UserDTO userDTO,
         boolean isEditable

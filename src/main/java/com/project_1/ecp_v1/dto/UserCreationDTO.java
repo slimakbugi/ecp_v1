@@ -9,6 +9,6 @@ public record UserCreationDTO(
         String lastname,
         String email,
         LocalDate dateOfBirth,
-        UserPositions position,
+        String position,
         LocalDate employmentDate
 ) {}

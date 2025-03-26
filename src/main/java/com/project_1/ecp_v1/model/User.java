@@ -1,5 +1,6 @@
 package com.project_1.ecp_v1.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project_1.ecp_v1.enums.UserPositions;
 import jakarta.persistence.*;
 
@@ -14,10 +15,14 @@ public class User {
     private String firstname;
     private String lastname;
     private String email;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
-    private UserPositions position;
+//    private UserPositions position;
+    private String position;
     private Boolean isHired;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate employmentDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
 
 //    Table dependencies
@@ -71,11 +76,11 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public UserPositions getPosition() {
+    public String getPosition() {
         return position;
     }
 
-    public void setPosition(UserPositions position) {
+    public void setPosition(String position) {
         this.position = position;
     }
 
