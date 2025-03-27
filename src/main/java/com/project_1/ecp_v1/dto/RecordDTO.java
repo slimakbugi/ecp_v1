@@ -14,6 +14,6 @@ public record RecordDTO(
         String place,
         String recordType,
         Long workTime,
-        UserDTO userDTO,
+        UserDTO user,
         boolean isEditable
 ) {}

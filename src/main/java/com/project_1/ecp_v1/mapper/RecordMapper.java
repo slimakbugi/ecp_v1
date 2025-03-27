@@ -33,7 +33,7 @@ public class RecordMapper {
                 recordDTO.body(),
                 recordDTO.place(),
                 recordDTO.recordType(),
-                userRepository.findById(recordDTO.userDTO().id())
+                userRepository.findById(recordDTO.user().id())
                         .orElseThrow(() -> new RuntimeException("User not found!"))
                 );
     }

@@ -52,8 +52,21 @@ public class RecordServiceImpl implements RecordService{
     public RecordDTO addRecord(RecordDTO recordDto) {
         Record record = recordMapper.toEntity(recordDto);
 
-        recordRepository.save(record);
-        return recordMapper.toDto(record);
+        getRecordsDtoByUserId(record.getId()).stream()
+                .filter(r -> r.start().getYear() == record.getStart().getYear())
+                .filter(r -> r.start().getMonth() == record.getStart().getMonth())
+                .filter(r -> r.start().getDayOfMonth() == record.getStart().getDayOfMonth())
+                .forEach(r -> {
+                    if(record.getStart().isAfter(r.start()) && record.getStart().isBefore(r.end())){
+                        throw new RuntimeException("The start time is overlapping with existing records!");
+                    } else if (record.getEnd().isAfter(r.start()) && record.getEnd().isBefore(r.end())) {
+                        throw new RuntimeException("The end time is overlapping with existing records!");
+                    }
+                });
+
+        Record saved = recordRepository.save(record);
+
+        return recordMapper.toDto(saved);
     }
 
     @Override

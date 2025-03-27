@@ -49,7 +49,7 @@ public class RecordController {
                 .buildAndExpand(addedRecord.id())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(record);
+        return ResponseEntity.created(uri).body(addedRecord);
     }
 
     @PatchMapping("/single/{id}")
