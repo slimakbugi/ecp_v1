@@ -22,7 +22,7 @@ public class RecordServiceImpl implements RecordService{
         this.recordMapper = recordMapper;
     }
 
-//    Methods
+//    Public methods
     @Override
     public Optional<RecordDTO> getRecordDtoById(Integer id) {
         return recordRepository.findById(id)
@@ -52,17 +52,8 @@ public class RecordServiceImpl implements RecordService{
     public RecordDTO addRecord(RecordDTO recordDto) {
         Record record = recordMapper.toEntity(recordDto);
 
-        getRecordsDtoByUserId(record.getId()).stream()
-                .filter(r -> r.start().getYear() == record.getStart().getYear())
-                .filter(r -> r.start().getMonth() == record.getStart().getMonth())
-                .filter(r -> r.start().getDayOfMonth() == record.getStart().getDayOfMonth())
-                .forEach(r -> {
-                    if(record.getStart().isAfter(r.start()) && record.getStart().isBefore(r.end())){
-                        throw new RuntimeException("The start time is overlapping with existing records!");
-                    } else if (record.getEnd().isAfter(r.start()) && record.getEnd().isBefore(r.end())) {
-                        throw new RuntimeException("The end time is overlapping with existing records!");
-                    }
-                });
+        // !!!!!!!!!!!!! dorobić odpowiedź
+        isTimeOutsideRange(record);
 
         Record saved = recordRepository.save(record);
 
@@ -95,4 +86,22 @@ public class RecordServiceImpl implements RecordService{
                     recordRepository.save(r);
                 });
     }
+
+//    Private methods
+private void isTimeOutsideRange(Record record) {
+
+    recordRepository.findAll().stream()
+            .filter(r -> r.getUser().getId().equals(record.getUser().getId()))
+            .filter(r -> r.getStart().getYear() == record.getStart().getYear())
+            .filter(r -> r.getStart().getMonth() == record.getStart().getMonth())
+            .filter(r -> r.getStart().getDayOfMonth() == record.getStart().getDayOfMonth())
+            .forEach(r -> {
+                if(record.getStart().isAfter(r.getStart()) && record.getStart().isBefore(r.getEnd())){
+                    throw new RuntimeException("The start time is overlapping with existing records!");
+                } else if (record.getEnd().isAfter(r.getStart()) && record.getEnd().isBefore(r.getEnd())) {
+                    throw new RuntimeException("The end time is overlapping with existing records!");
+                }
+            });
+}
+
 }
