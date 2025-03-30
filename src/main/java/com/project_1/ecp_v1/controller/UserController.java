@@ -3,6 +3,7 @@ package com.project_1.ecp_v1.controller;
 import com.project_1.ecp_v1.dto.UserCreationDTO;
 import com.project_1.ecp_v1.dto.UserDTO;
 import com.project_1.ecp_v1.service.UserServiceImpl;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -42,15 +43,20 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<UserDTO> addUser(@RequestBody UserCreationDTO user){
-        UserDTO addedUser = userServiceImpl.addUser(user);
+    public ResponseEntity<?> addUser(@RequestBody UserCreationDTO user){
+        UserDTO addedUser;
+        try {
+            addedUser = userServiceImpl.addUser(user);
+        } catch (DataIntegrityViolationException e ){
+            return ResponseEntity.badRequest().body("Email address already exists!");
+        }
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(addedUser.id())
-                .toUri();
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(addedUser.id())
+                    .toUri();
 
-        return ResponseEntity.created(uri).body(addedUser);
+            return ResponseEntity.created(uri).body(addedUser);
     }
 
     @PatchMapping("/{id}")
@@ -69,7 +75,7 @@ public class UserController {
         if(isUserDeleted){
             return ResponseEntity.accepted().build();
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
 
     }

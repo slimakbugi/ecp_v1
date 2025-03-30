@@ -41,8 +41,20 @@ public class RecordController {
     }
 
     @PostMapping()
-    public ResponseEntity<RecordDTO> addRecord(@RequestBody RecordDTO record){
-        RecordDTO addedRecord = recordService.addRecord(record);
+    public ResponseEntity<?> addRecord(@RequestBody RecordDTO record){
+        int timeOutsideRange = recordService.isTimeOutsideRange(record);
+
+        if (timeOutsideRange > 0){
+            return ResponseEntity.badRequest().body("The start/end time is overlapping with existing records!");
+        }
+        RecordDTO addedRecord;
+
+        try {
+            addedRecord = recordService.addRecord(record);
+        } catch (RuntimeException e){
+            return ResponseEntity.badRequest().body("User not found!");
+
+        }
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/single/{id}")
@@ -66,7 +78,7 @@ public class RecordController {
         if(isRecordDeleted){
             return ResponseEntity.accepted().build();
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 

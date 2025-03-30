@@ -22,7 +22,7 @@ public class RecordServiceImpl implements RecordService{
         this.recordMapper = recordMapper;
     }
 
-//    Public methods
+//    Main methods
     @Override
     public Optional<RecordDTO> getRecordDtoById(Integer id) {
         return recordRepository.findById(id)
@@ -52,9 +52,6 @@ public class RecordServiceImpl implements RecordService{
     public RecordDTO addRecord(RecordDTO recordDto) {
         Record record = recordMapper.toEntity(recordDto);
 
-        // !!!!!!!!!!!!! dorobić odpowiedź
-        isTimeOutsideRange(record);
-
         Record saved = recordRepository.save(record);
 
         return recordMapper.toDto(saved);
@@ -76,6 +73,31 @@ public class RecordServiceImpl implements RecordService{
                 .map(recordMapper::toDto);
     }
 
+
+//    Auxiliary methods
+    @Override
+    public int isTimeOutsideRange(RecordDTO record) {
+
+        int result = 0;
+
+        List<Record> list = recordRepository.findAll().stream()
+                .filter(r -> r.getUser().getId().equals(record.user().id()))
+                .filter(r -> r.getStart().getYear() == record.start().getYear())
+                .filter(r -> r.getStart().getMonth() == record.start().getMonth())
+                .filter(r -> r.getStart().getDayOfMonth() == record.start().getDayOfMonth())
+                .toList();
+
+        for(Record r : list){
+            if (record.start().isEqual(r.getStart()) || (record.start().isAfter(r.getStart()) && record.start().isBefore(r.getEnd()))) {
+                result++;
+            } else if (record.end().isEqual(r.getStart()) || (record.end().isAfter(r.getStart()) && record.end().isBefore(r.getEnd()))) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
     @Override
     public void setRecordsEditable(Integer userId, Integer month, boolean isEditable){
         recordRepository.findAll().stream()
@@ -87,21 +109,5 @@ public class RecordServiceImpl implements RecordService{
                 });
     }
 
-//    Private methods
-private void isTimeOutsideRange(Record record) {
-
-    recordRepository.findAll().stream()
-            .filter(r -> r.getUser().getId().equals(record.getUser().getId()))
-            .filter(r -> r.getStart().getYear() == record.getStart().getYear())
-            .filter(r -> r.getStart().getMonth() == record.getStart().getMonth())
-            .filter(r -> r.getStart().getDayOfMonth() == record.getStart().getDayOfMonth())
-            .forEach(r -> {
-                if(record.getStart().isAfter(r.getStart()) && record.getStart().isBefore(r.getEnd())){
-                    throw new RuntimeException("The start time is overlapping with existing records!");
-                } else if (record.getEnd().isAfter(r.getStart()) && record.getEnd().isBefore(r.getEnd())) {
-                    throw new RuntimeException("The end time is overlapping with existing records!");
-                }
-            });
-}
 
 }

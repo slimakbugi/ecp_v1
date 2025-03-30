@@ -5,8 +5,10 @@ import com.project_1.ecp_v1.dto.UserDTO;
 import com.project_1.ecp_v1.mapper.UserMapper;
 import com.project_1.ecp_v1.model.User;
 import com.project_1.ecp_v1.repository.UserRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
