@@ -44,6 +44,9 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<?> addUser(@RequestBody UserCreationDTO user){
+
+        if(isUserNull(user)) return ResponseEntity.badRequest().body("Some data are null!");
+
         UserDTO addedUser;
         try {
             addedUser = userServiceImpl.addUser(user);
@@ -78,6 +81,18 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
 
+    }
+
+
+//    Auxiliary methods
+    private boolean isUserNull(UserCreationDTO user){
+        return user == null
+                || user.firstname() == null
+                || user.lastname() == null
+                || user.email() == null
+                || user.dateOfBirth() == null
+                || user.position() == null
+                || user.employmentDate() == null;
     }
 
 }
