@@ -1,8 +1,6 @@
 package com.project_1.ecp_v1.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.project_1.ecp_v1.enums.RecordPlace;
-import com.project_1.ecp_v1.enums.RecordType;
 import jakarta.persistence.*;
 
 import java.time.Duration;

@@ -43,13 +43,13 @@ public class RecordController {
     @PostMapping()
     public ResponseEntity<?> addRecord(@RequestBody RecordDTO record){
 //        Checking if the record / user is null
-        isRecordOrUserNull(record);
+        recordService.isRecordOrUserNull(record);
 
 //        Checking if the start is before end
-        isStartBeforeEnd(record);
+        recordService.isStartBeforeEnd(record);
 
 //        Checking if the start/end time are not overlapping with existing records
-        isTimeOutsideRange(record);
+        recordService.isTimeOutsideRange(record);
 
 //        Adding record to base
         RecordDTO addedRecord;
@@ -74,13 +74,13 @@ public class RecordController {
     public ResponseEntity<?> updateRecord(@PathVariable Integer id, @RequestBody RecordDTO record){
         
 //        Checking if the record / user is null
-        isRecordOrUserNull(record);
+        recordService.isRecordOrUserNull(record);
 
 //        Checking if the start is before end
-        isStartBeforeEnd(record);
+        recordService.isStartBeforeEnd(record);
 
 //        Checking if the start/end time are not overlapping with existing records
-        isTimeOutsideRange(record);
+        recordService.isTimeOutsideRange(record);
 
         return recordService.partiallyUpdateRecord(id, record)
                 .map(ResponseEntity::ok)
@@ -100,25 +100,6 @@ public class RecordController {
 
 
 //    Auxiliary methods
-    private static void isRecordOrUserNull(RecordDTO record) {
-        if(record == null || record.user() == null){
-            ResponseEntity.badRequest().body("Record/user is null!");
-        }
-    }
-
-    private void isTimeOutsideRange(RecordDTO record) {
-        int timeOutsideRange = recordService.isTimeOutsideRange(record);
-
-        if (timeOutsideRange > 0){
-            ResponseEntity.badRequest().body("The start/end time is overlapping with existing records!");
-        }
-    }
-
-    private static void isStartBeforeEnd(RecordDTO record) {
-        if(record.start().isAfter(record.end())){
-            ResponseEntity.badRequest().body("The start time is equal or after the end time!");
-        }
-    }
 
 
 }

@@ -4,6 +4,7 @@ import com.project_1.ecp_v1.dto.RecordDTO;
 import com.project_1.ecp_v1.mapper.RecordMapper;
 import com.project_1.ecp_v1.model.Record;
 import com.project_1.ecp_v1.repository.RecordRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -76,7 +77,7 @@ public class RecordServiceImpl implements RecordService{
 
 //    Auxiliary methods
     @Override
-    public int isTimeOutsideRange(RecordDTO record) {
+    public void isTimeOutsideRange(RecordDTO record) {
 
         int result = 0;
 
@@ -88,14 +89,20 @@ public class RecordServiceImpl implements RecordService{
                 .toList();
 
         for(Record r : list){
-            if (record.start().isEqual(r.getStart()) || (record.start().isAfter(r.getStart()) && record.start().isBefore(r.getEnd()))) {
+            if (record.start().isEqual(r.getStart())
+                    || (record.start().isAfter(r.getStart())
+                    && record.start().isBefore(r.getEnd()))) {
                 result++;
-            } else if (record.end().isEqual(r.getStart()) || (record.end().isAfter(r.getStart()) && record.end().isBefore(r.getEnd()))) {
+            } else if (record.end().isEqual(r.getStart())
+                    || (record.end().isAfter(r.getStart())
+                    && record.end().isBefore(r.getEnd()))) {
                 result++;
             }
         }
 
-        return result;
+        if (result > 0){
+            ResponseEntity.badRequest().body("The start/end time is overlapping with existing records!");
+        }
     }
 
     @Override
@@ -109,5 +116,18 @@ public class RecordServiceImpl implements RecordService{
                 });
     }
 
+    @Override
+    public void isRecordOrUserNull(RecordDTO record) {
+        if(record == null || record.user() == null){
+            ResponseEntity.badRequest().body("Record/user is null!");
+        }
+    }
+
+    @Override
+    public void isStartBeforeEnd(RecordDTO record) {
+        if(record.start().isAfter(record.end())){
+            ResponseEntity.badRequest().body("The start time is equal or after the end time!");
+        }
+    }
 
 }

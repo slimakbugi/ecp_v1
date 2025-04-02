@@ -19,11 +19,13 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+//    Constructor
     public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
     }
 
+//    Main methods
     @Override
     public Optional<UserDTO> getUserDtoById(Integer id){
         return userRepository.findById(id)
@@ -103,4 +105,17 @@ public class UserServiceImpl implements UserService{
             return false;
         }
     }
+
+//    Auxiliary methods
+    @Override
+    public boolean isUserNull(UserCreationDTO user){
+        return user == null
+                || user.firstname() == null
+                || user.lastname() == null
+                || user.email() == null
+                || user.dateOfBirth() == null
+                || user.position() == null
+                || user.employmentDate() == null;
+    }
+
 }

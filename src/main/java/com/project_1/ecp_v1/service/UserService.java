@@ -15,5 +15,6 @@ public interface UserService {
     Optional<UserDTO> partiallyUpdateUser(Integer id, UserCreationDTO userCreationDTO);
     boolean releaseUser(Integer id, LocalDate releaseDate);
     boolean hireUserAgain(Integer id, LocalDate employmentDate);
+    boolean isUserNull(UserCreationDTO user);
 
 }

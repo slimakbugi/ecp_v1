@@ -1,7 +1,6 @@
 package com.project_1.ecp_v1.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.project_1.ecp_v1.enums.UserPositions;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
