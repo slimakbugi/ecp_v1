@@ -53,6 +53,7 @@ public class RecordServiceImpl implements RecordService{
     public RecordDTO addRecord(RecordDTO recordDto) {
         Record record = recordMapper.toEntity(recordDto);
 
+
         Record saved = recordRepository.save(record);
 
         return recordMapper.toDto(saved);
@@ -68,6 +69,7 @@ public class RecordServiceImpl implements RecordService{
                     if (recordDto.body() != null) existingRecord.setBody(recordDto.body());
                     if (recordDto.place() != null) existingRecord.setPlace(recordDto.place());
                     if (recordDto.recordType() != null) existingRecord.setRecordType(recordDto.recordType());
+                    existingRecord.setWorkTime();
 
                     return recordRepository.save(existingRecord);
                 })
